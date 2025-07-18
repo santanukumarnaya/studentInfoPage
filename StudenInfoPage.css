@@ -12,6 +12,7 @@ body {
   flex-direction: column;
   height: 100vh;
   padding: 20px;
+  background-color: hsl(251, 26%, 83%);
 }
 
 /* Title styling */
@@ -85,7 +86,7 @@ table {
 
 /* Table headers */
 thead tr {
-  background-color: lightblue;
+  background-color: rgb(113, 57, 146);
 }
 
 th, td {
