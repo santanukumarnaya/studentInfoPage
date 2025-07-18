@@ -1,0 +1,137 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Layout container */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Title styling */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Top half: Input form */
+.input_box,
+.input_box_button {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  width: 100%;
+}
+
+.input_box_element {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* Error message styles */
+.error-message {
+  text-align: center;
+  color: red;
+  font-size: 14px;
+  margin-top: -8px;
+  margin-bottom: 10px;
+}
+
+.show-error-messge {
+  display: block;
+}
+
+.hide-error-message {
+  display: none;
+}
+
+/* Buttons */
+.input_box_button {
+  justify-content: flex-end;
+  width: 42%;
+  margin-top: 10px;
+}
+
+.input_button_style {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.input_button_style:hover {
+  background-color: #0056b3;
+}
+
+/* Table section (bottom half of the screen) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+/* Table headers */
+thead tr {
+  background-color: lightblue;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+/* Table rows in tbody */
+tbody tr {
+  background-color: peachpuff;
+}
+
+/* Responsive input section height */
+.input_box,
+.input_box_button,
+.error-message {
+  max-height: 50%;
+}
+
+/* action button*/
+/* Base action button styling */
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Edit icon using pencil emoji or unicode (✏️ or 🖉) */
+.edit::before {
+  content: "\270E"; /* Unicode pencil */
+  font-size: 16px;
+  display: inline-block;
+  color: green;
+}
+
+/* Delete icon using trash can emoji or unicode (🗑️) */
+.delete::before {
+  content: "\1F5D1"; /* Unicode for 🗑️ (Trash Can) */
+  font-size: 16px;
+  display: inline-block;
+  color: red;
+}
