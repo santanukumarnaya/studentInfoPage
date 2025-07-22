@@ -45,7 +45,7 @@ function editStudentRow(button) {
   const row = button.closest("tr");
   const cells = row.getElementsByTagName("td");
   const rowId = parseInt(cells[0].innerText); 
-  editingRow = studentList.findIndex(student => student[0] === rowId); 
+  editingRow = rowId;
   console.log("Editing Row Id: " , rowId);
   document.getElementById("full-name-id").value = cells[1].innerText;
   document.getElementById("college-name-id").value = cells[2].innerText;
@@ -87,29 +87,26 @@ function addNewRow(event) {
   const getPercentage= document.getElementById("percentage-id").value;
   const getDob= document.getElementById("dob-id").value;
   const getage= calculateAge(getDob);
-  const id = (editingRow !== null && editingRow >= 0) ? studentList[editingRow][0] : seq_num;
-  // editingRow !== null && editingRow >= 0:
-  // This checks if i am currently editing an row in the table.
-
-  // if i am editing an row, it uses the existing row's ID:
-  // studentList[editingRow][0] → get the ID from that row.
-
-  // if i am not editing , it uses the next sequence number:
-  // seq_num
-  const row = [id, fullName, collegeName, getQualification, getPercentage, getage];
-
-  if (editingRow !== null) {
-    // Edit mode: update the existing row
-    studentList[editingRow] = row;
-    editingRow = null; // Reset edit mode
-  } else {
-    // Add mode: push a new row
+  
+  if(editingRow == null) {
+    const row = [seq_num, fullName, collegeName, getQualification, getPercentage, getage];
+    seq_num ++;
     studentList.push(row);
-    seq_num++;
-  }renderTable();
+  } else {
+    const row = [editingRow, fullName, collegeName, getQualification, getPercentage, getage];
+    for(let i=0; i<studentList.length; i++) {
+      if(studentList[i][0] == editingRow) {
+        studentList[i] = row;
+        break;
+      }
+    }
+  }
+  console.log("student list: ", studentList);
+  renderTable();
 }
 
 function resetFormInput() {
+  editingRow = null;
   document.getElementById("full-name-id").value = "";
   document.getElementById("college-name-id").value = "";
   document.getElementById("qualification-id").value = "";
