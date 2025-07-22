@@ -37,12 +37,15 @@ function renderTable() {
   
   });
 }
-let editingRow = null; 
+let editingRow = null;
+// I am declaring it golablly and the value is null cause no row is not being edited at the time 
+// when the edit button is clicked it's fethes the index or seq_num of the row. 
 
 function editStudentRow(button) {
   const row = button.closest("tr");
   const cells = row.getElementsByTagName("td");
-  const rowId = cells[0].innerText;
+  const rowId = parseInt(cells[0].innerText); 
+  editingRow = studentList.findIndex(student => student[0] === rowId); 
   console.log("Editing Row Id: " , rowId);
   document.getElementById("full-name-id").value = cells[1].innerText;
   document.getElementById("college-name-id").value = cells[2].innerText;
@@ -59,7 +62,7 @@ function editStudentRow(button) {
 function deleteStudentRow(button) {
   const row = button.closest("tr");
   const cells = row.getElementsByTagName("td");
-  const rowId = cells[0].innerText;
+  const rowId = parseInt(cells[0].innerText); 
   console.log("Deleting Row Id: " , rowId);
   for(let i=0; i<studentList.length; i++) {
     const studentRow = studentList[i];
@@ -84,10 +87,26 @@ function addNewRow(event) {
   const getPercentage= document.getElementById("percentage-id").value;
   const getDob= document.getElementById("dob-id").value;
   const getage= calculateAge(getDob);
-  const row = [seq_num, fullName, collegeName, getQualification, getPercentage, getage];
-  studentList.push(row);
-  seq_num ++;
-  renderTable();
+  const id = (editingRow !== null && editingRow >= 0) ? studentList[editingRow][0] : seq_num;
+  // editingRow !== null && editingRow >= 0:
+  // This checks if i am currently editing an row in the table.
+
+  // if i am editing an row, it uses the existing row's ID:
+  // studentList[editingRow][0] → get the ID from that row.
+
+  // if i am not editing , it uses the next sequence number:
+  // seq_num
+  const row = [id, fullName, collegeName, getQualification, getPercentage, getage];
+
+  if (editingRow !== null) {
+    // Edit mode: update the existing row
+    studentList[editingRow] = row;
+    editingRow = null; // Reset edit mode
+  } else {
+    // Add mode: push a new row
+    studentList.push(row);
+    seq_num++;
+  }renderTable();
 }
 
 function resetFormInput() {
@@ -96,10 +115,10 @@ function resetFormInput() {
   document.getElementById("qualification-id").value = "";
   document.getElementById("percentage-id").value = "";
   document.getElementById("dob-id").value = "";
-  const collegeName= document.getElementById("college-name-id").value;
-  const getQualification= document.getElementById("qualification-id").value;
-  const getPercentage= document.getElementById("percentage-id").value;
-  const getDob= document.getElementById("dob-id").value;
+  // const collegeName= document.getElementById("college-name-id").value;
+  // const getQualification= document.getElementById("qualification-id").value;
+  // const getPercentage= document.getElementById("percentage-id").value;
+  // const getDob= document.getElementById("dob-id").value;
 }
 
 
@@ -108,6 +127,7 @@ function submitButtonActive(){
   // return getDetailsForm();
   if (getDetailsForm()){
     addNewRow();
+    resetFormInput();
   }
 }
 
@@ -173,8 +193,9 @@ function isValidQualification(){
   }
 }
 function isValidPercentage(){
-  const getPercentage= document.getElementById("percentage-id").value;
-  if(!getPercentage) {
+  const value = Number(document.getElementById("percentage-id").value);
+  
+  if(!value|| isNaN(value) || value < 1 || value > 100) {
     document.getElementById("PercentageError").classList.remove("hide-error-message");
     document.getElementById("PercentageError").classList.add("show-error-messge");
     return false;
